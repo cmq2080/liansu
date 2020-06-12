@@ -11,16 +11,17 @@
         body{background:#1F1E1A;}
         .lsu-page{width:100%; overflow: hidden;}
         .lsu-header,.lsu-content{width: 100%;overflow: hidden;}
-        .lsu-header .header{height: 140px;}
+        .lsu-header .header{height: 10em;}
         .lsu-content{width:100%;}
         .lsu-content .content{width: 100%;overflow: hidden;}
         .content *{color: #FFFFFF}
-        .content h2{text-align: center;font-size: 2em;letter-spacing: 0.3em;margin-bottom: 1em;}
-        .content .form-table{width: 300px;margin:0 auto;overflow: hidden;}
+        .content h2{width: 20em;text-align: center;font-size: 2em;letter-spacing: 0.5em;margin:0 auto;margin-bottom: 1em;}
+        .content .form-table{width: 20em;margin:0 auto;overflow: hidden;}
         .form-table td{padding: 6px 2px;}
-        .form-table td .form-label{margin-right: 20px;}
-        .form-table td .form-input{width: 200px;color: #000000;}
+        .form-table td .form-label{margin-right: 20px;min-width: 5em;overflow: hidden;}
+        .form-table td .form-input{width: 95%;min-width: 200px;;color: #000000;}
     </style>
+    <script type="text/javascript" src="assets/js/liansu.js"></script>
 </head>
 <body>
     <div class="lsu-page">
@@ -30,7 +31,7 @@
         <div class="lsu-content">
             <div class="content">
                 <h2>网站管理系统</h2>
-                <form method="POST" action="">
+                <form>
                     <table class="form-table">
                         <tr>
                             <td><span class="form-label">用户名</span></td>
@@ -52,7 +53,7 @@
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center">
-                                <button type="button" class="lsu-btn" style="border-radius: 4px;">登录</button>
+                                <button type="button" class="lsu-btn" style="border-radius: 4px;" lsu-submiit="">登录</button>
                             </td>
                         </tr>
                     </table>
@@ -62,3 +63,6 @@
     </div>    
 </body>
 </html>
+<script>
+    
+</script>

@@ -3,9 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/admin/init.css">
+    <style>
+        .lsu-form{overflow: hidden;}
+        .lsu-form .lsu-form-item{float: left;margin: 1em;}
+        .lsu-list{overflow: hidden;}
+        .lsu-list .lsu-list-table{width: 100%;text-align: center;}
+        .lsu-list-table thead{background: #E2E2E2;}
+        .lsu-list-table thead tr th{padding: 10px;}
+        .lsu-list-table tbody tr:nth-child(even){background: #E2E2E2;}
+        .lsu-list-table tbody tr td{padding: 10px;}
+        .lsu-list-table td a{color: #57A000;font-size: 14px;margin: 0 0.3em;}
+    </style>
+
     <title>列表</title>
+
+    <script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
-    
+    <div class="lsu-form">
+        <div class="lsu-form-item">
+            <label>用户名</label>
+            <input type="text" class="lsu-input" name="username">
+        </div>
+        <div class="lsu-form-item">
+            <label>性别</label>
+            <select name="sex" id="">
+                <option value="">不限</option>
+                <option value="">男</option>
+                <option value="">女</option>
+            </select>
+        </div>
+        <div class="lsu-form-item">
+            <label>联系电话</label>
+            <input type="text" class="lsu-input" name="phone">
+        </div>
+        <div class="lsu-form-item">
+            <button type="button" class="lsu-btn">查询</button>
+        </div>
+    </div>
+    <div class="lsu-list">
+        <table class="lsu-list-table" cellspacing="0">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" class="lsu-key"/></th>
+                    <th>用户名</th>
+                    <th>密码</th>
+                    <th>真实姓名</th>
+                    <th>创建时间</th>
+                    <th>登录时间</th>
+                    <th>修改时间</th>
+                    <th>删除时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="checkbox" class="lsu-key"></td>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                    <td>7</td>
+                    <td><a href="">修改</a><a href="">删除</a></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="lsu-key"></td>
+                    <td>A</td>
+                    <td>B</td>
+                    <td>C</td>
+                    <td>D</td>
+                    <td>E</td>
+                    <td>F</td>
+                    <td>G</td>
+                    <td><a href="">修改</a><a href="">删除</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="paginate">
+
+        </div>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+        3<br>
+    </div>
 </body>
 </html>

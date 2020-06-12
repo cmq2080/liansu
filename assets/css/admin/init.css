@@ -5,7 +5,7 @@
 ul,ol{list-style:none;}
 a:hover{cursor:pointer;}
 /*input{margin-left: 5px;padding-left: 5px;}*/
-input,textarea{border:1px#A9A9A9 solid; padding:2px 5px; border-radius:4px;}
+input,textarea,select{border:1px#A9A9A9 solid; padding:2px 5px; border-radius:4px;}
 div{display:block;}
 
 /*公有样式*/
@@ -16,6 +16,6 @@ h2{display:block; font-size:1.5em; font-weight:bold;}
 .right{float:right;}
 .clear{clear:both;}
 .lsu-col-space{margin:auto 0.5em;}
-.lsu-btn{color: #FFFFFF;background: #57A000;margin:0px 5px;padding: 4px 6px;}
+.lsu-btn{color: #FFFFFF;background: #57A000;margin:0px 5px;padding: 4px 6px;border-radius: 4px;cursor: pointer;}
 .lsu-lg-input{width:380px;}
 .lsu-sm-input{width:70px;}
