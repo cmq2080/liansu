@@ -1,5 +1,5 @@
 <?php
-namespace liansu;
+namespace liansu\config;
 
 class Config
 {
@@ -13,7 +13,7 @@ class Config
     {
         $files = scandir(CONFIG_DIRECTORY);
         foreach ($files as $file) {
-            if ($file === '.' || $file === '..' || is_file($file) === false) { // 不是文件，算了
+            if ($file === '.' || $file === '..' || is_file(CONFIG_DIRECTORY . '/' . $file) === false) { // 不是文件，算了
                 continue;
             }
             if (pathinfo($file, PATHINFO_EXTENSION) !== 'php') { // 还必须得是php文件
@@ -34,7 +34,7 @@ class Config
      * 功能：获取配置
      * Created at 2020/7/25 18:29 by mq
      * @param $name
-     * @param null $default
+     * @param string $default
      * @return array|mixed|null
      */
     public static function get($name, $default = '')
@@ -65,5 +65,8 @@ class Config
         self::$vars[$name] = $value;
     }
 
-//    private static
+    public static function all()
+    {
+        return self::$vars;
+    }
 }

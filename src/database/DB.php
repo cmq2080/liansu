@@ -1,10 +1,9 @@
 <?php
 namespace liansu\database;
 
-use liansu\Base;
 use liansu\Config;
 
-class DB extends Base
+class DB
 {
     private static $type = 'mysql';
     private static $server;
@@ -15,6 +14,8 @@ class DB extends Base
     private static $port = 3306;
     private static $prefix = '';
 
+    public static $instance;
+
     public static function connect($config = null)
     {
         if ($config === null) { // 默认从db配置文件中获取
@@ -24,6 +25,7 @@ class DB extends Base
             throw new \Exception('连接配置未找到');
         }
 
+        // 相当于重置了一次数据库链接，所以实例也得重置
         self::$instance = null;
         foreach ($config as $name => $value) {
             if (in_array($name, ['type', 'server', 'username', 'password', 'database', 'charset', 'port', 'prefix']) === true) {

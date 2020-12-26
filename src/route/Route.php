@@ -1,5 +1,7 @@
 <?php
-namespace liansu;
+namespace liansu\route;
+
+use liansu\config\Config;
 
 class Route
 {
@@ -42,8 +44,11 @@ class Route
             throw new \Exception('action不存在');
         }
         $method = $class->getMethod($action);
-        if ($method->isStatic() === true || $method->isPublic() === false) { // 然后再看该方法是否是动态、公有的
-            throw new \Exception('action错误');
+        if ($method->isStatic() === true) { // 然后再看该方法是否是动态
+            throw new \Exception('action不能是静态的');
+        }
+        if ($method->isPublic() === false) { // 然后再看该方法是否是公有的
+            throw new \Exception('action必须是公有的');
         }
 
         return ['controller' => $controller, 'action' => $action];
@@ -60,7 +65,11 @@ class Route
         if (isset(self::$rules[$controller]) === true) { // 优先采用自定义路由映射
             $controller = self::$rules[$controller];
         }
-        $controller = 'app\\' . str_replace('.', '\\', str_replace('/', '\\', $controller));
+        $controller = str_replace('.', '\\', $controller); // 将控制器中的/换成\
+        $controller = str_replace('/', '\\', $controller); // 将控制器中的.换成\
+
+        $appNamespace = Config::get('app_namespace', 'app'); // 获取应用控制器层命名空间
+        $controller = $appNamespace . '\\' . $controller; // 最后映射到app下
 
         return $controller;
     }
