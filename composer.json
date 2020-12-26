@@ -1,0 +1,24 @@
+{
+    "name": "liansu/framework",
+    "description": "The liansu Framework.",
+    "keywords": [
+        "framework",
+        "liansu"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Temple Chan",
+            "email": "cmq2080@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "catfan/medoo": "~1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "liansu\\": "./src"
+        }
+    }
+}
