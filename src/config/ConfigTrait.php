@@ -12,10 +12,12 @@ trait ConfigTrait
     public function setRouteParam($routeParam)
     {
         Config::set('default_route_param', $routeParam);
+        return $this;
     }
 
     public function setAppNamespace($appNamespace)
     {
         Config::set('app_namespace', $appNamespace);
+        return $this;
     }
 }

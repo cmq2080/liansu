@@ -27,7 +27,7 @@ class Route
         $action = Config::get('default_action', '');
 
         // 截取
-        $names = explode('@', $r);
+        $names = explode('@', $r); // 这波分割之后，是个元素数量为2的一维数组
         $controller = (isset($names[0]) === true && $names[0]) ? $names[0] : $controller;
         $controller = self::getController($controller);
 
@@ -35,13 +35,12 @@ class Route
 
         // 验证路由
         if (class_exists($controller) === false) {
-            echo $controller;
-            throw new \Exception('controller不存在');
+            throw new \Exception('controller不存在：' . $controller);
         }
 
         $class = new \ReflectionClass($controller);
         if ($class->hasMethod($action) === false) { // 通过反射类来查找action的有无，我当时有点猛~~~
-            throw new \Exception('action不存在');
+            throw new \Exception('action不存在：' . $action);
         }
         $method = $class->getMethod($action);
         if ($method->isStatic() === true) { // 然后再看该方法是否是动态

@@ -24,7 +24,7 @@ class Config
             if (pathinfo($file, PATHINFO_BASENAME) === 'app.php') {
                 self::$vars = require_once CONFIG_DIRECTORY . '/' . $file;
             } else { // 其它文件做辅配置，级别低一级
-                $key = explode('.', $file)[0];
+                $key = pathinfo($file, PATHINFO_FILENAME);
                 self::$vars[$key] = require_once CONFIG_DIRECTORY . '/' . $file;
             }
         }
