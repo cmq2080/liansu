@@ -1,68 +1,135 @@
 <?php
+/**
+ * 描述：
+ * Created at 2021/5/30 21:24 by mq
+ */
+
 namespace liansu;
 
-use liansu\config\Config;
-use liansu\config\ConfigTrait;
-use liansu\controller\Controller;
-use liansu\database\DB;
-use liansu\request\Request;
-use liansu\route\Route;
 
 class App
 {
-    use ConfigTrait;
+    private static $instance = null;
+    private $routeParam = 'r';
+    private $namespace = 'app';
+    private $initItems = [
+        'liansu/Config',
+        'liansu/Route',
+    ];
 
-    public static $instance = null;
+    private $defaultApp = 'index@index';
 
-    /**
-     * 功能：获取实例
-     * Created at 2020/12/19 20:31 by mq
-     * @return App|null
-     */
+    private $_controller = '';
+    private $_action = '';
+
     public static function instance()
     {
-        if (self::$instance === null || get_class(self::$instance) !== static::class) {
-            self::$instance = new static();
+        if (self::$instance === null) {
+            self::$instance = new self();
         }
 
         return self::$instance;
     }
 
-    protected function __construct()
+    private function __construct()
     {
-        // 定义目录
-        defined('ROOT_DIRECTORY') or define('ROOT_DIRECTORY', realpath(__DIR__ . '/../../../..'));
-        defined('VENDOR_DIRECTORY') or define('VENDOR_DIRECTORY', ROOT_DIRECTORY . '/vendor');
-        defined('APP_DIRECTORY') or define('APP_DIRECTORY', ROOT_DIRECTORY . '/app');
-        defined('CONFIG_DIRECTORY') or define('CONFIG_DIRECTORY', ROOT_DIRECTORY . '/config');
-        defined('RUNTIME_DIRECTORY') or define('RUNTIME_DIRECTORY', ROOT_DIRECTORY . '/runtime');
+        // 定义常量们
+        defined('PUBLIC_DIRECTORY') || define('PUBLIC_DIRECTORY', realpath($_SERVER['DOCUMENT_ROOT']));
+        defined('ROOT_DIRECTORY') || define('ROOT_DIRECTORY', realpath(PUBLIC_DIRECTORY . '/..'));
+        defined('CONFIG_DIRECTORY') || define('CONFIG_DIRECTORY', realpath(ROOT_DIRECTORY . '/config'));
+        defined('VENDOR_DIRECTORY') || define('VENDOR_DIRECTORY', realpath(ROOT_DIRECTORY . '/vendor'));
+        defined('RUNTIME_DIRECTORY') || define('RUNTIME_DIRECTORY', realpath(ROOT_DIRECTORY . '/runtime'));
 
-        // 各个辅助类初始化
-        Config::init();
-        DB::connect(Config::get('db'));
-        Route::init();
+        // 初始化各个类
+        $this->runInitItems();
     }
 
     public function run()
     {
-        // 初始化
-        // 获取请求
+        // 接收参数
+        $app = Request::get($this->routeParam);
+        if (!$app) {
+            $app = $this->defaultApp;
+        }
+        if (!$app) {
+            throw new \Exception('No App Found');
+        }
+
+        // 找寻路由
+        $app = Route::find($app);
+
         // 解析路由
-        // 创建控制器实例
-        // 运行控制器实例并响应
-        $rParams = Config::get('default_route_param', 'r');
-        $r = Request::get($rParams);
-        $result = Route::run($r);
-        $controller = $result['controller'];
-        $action = $result['action'];
+        $controller = Route::parseStr($app);
+        $controller = $this->namespace . '\\' . $controller;
+        $action = Route::parseStr($app, 'action');
+//        var_dump($controller);
+//        var_dump($action);
 
-        $this->takeAction(new $controller, $action);
+        // 实例化控制器类并执行动作
+        Route::execute($controller, $action);
     }
 
-    private function takeAction(Controller $controller, $action)
+    public function setNamespace($namespace)
     {
-        // 2020-7-25 19:36:01，连速框架正式alive
-        // 记住这个时刻！！！
-        $controller->$action();
+        $this->namespace = $namespace;
+        return $this;
     }
+
+    public function setRouteParam($routeParam)
+    {
+        $this->routeParam = $routeParam;
+        return $this;
+    }
+
+    public function setDefaultApp($app)
+    {
+        $this->defaultApp = $app;
+    }
+
+    public function addInitItems(...$initItems)
+    {
+        foreach ($initItems as $initItem) {
+            if (is_array($initItem) === true) {
+                foreach ($initItem as $item) {
+                    $this->initItems[] = $item;
+                }
+            } else {
+                $this->initItems[] = $initItem;
+            }
+        }
+    }
+
+    private function runInitItems()
+    {
+        foreach ($this->initItems as $initItem) {
+            $initItem = str_replace('/', '\\', $initItem);
+            if (class_exists($initItem) === false) {
+                throw new \Exception('初始化类不存在');
+            }
+            $initItem::initialize();
+        }
+    }
+
+    public function setController($controller)
+    {
+        $this->_controller = $controller;
+        return $this;
+    }
+
+    public function getController()
+    {
+        return $this->_controller;
+    }
+
+    public function setAction($action)
+    {
+        $this->_action = $action;
+        return $this;
+    }
+
+    public function getAction()
+    {
+        return $this->_action;
+    }
+
 }
